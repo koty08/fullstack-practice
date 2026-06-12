@@ -14,6 +14,7 @@ export default async function PostsPage() {
   // ✅ Server Component → FastAPI 직접 호출 (Route Handler 경유 금지)
   const res = await fetch(`${process.env.FASTAPI_URL}/posts`, {
     next: { tags: ["posts-list"] },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -43,9 +44,7 @@ export default async function PostsPage() {
       </div>
 
       {posts.length === 0 ? (
-        <p className="text-center text-gray-400 py-20">
-          아직 작성된 게시글이 없습니다.
-        </p>
+        <p className="text-center text-gray-400 py-20">아직 작성된 게시글이 없습니다.</p>
       ) : (
         <ul className="space-y-3">
           {posts.map((post) => (
@@ -55,9 +54,7 @@ export default async function PostsPage() {
                 className="block bg-white border border-gray-200 rounded-xl p-5 hover:border-blue-400 hover:shadow-sm transition-all"
               >
                 <p className="font-medium text-gray-900">{post.title}</p>
-                <p className="text-sm text-gray-400 mt-1">
-                  {new Date(post.created_at).toLocaleDateString("ko-KR")}
-                </p>
+                <p className="text-sm text-gray-400 mt-1">{new Date(post.created_at).toLocaleDateString("ko-KR")}</p>
               </Link>
             </li>
           ))}
